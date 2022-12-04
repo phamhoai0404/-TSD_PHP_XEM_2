@@ -1,0 +1,17 @@
+const { mix } = require('laravel-mix');
+require('laravel-mix-merge-manifest');
+
+mix.setPublicPath('../../public').mergeManifest();
+
+mix.webpackConfig(webpack => {
+    return {
+        plugins: [ new webpack.EnvironmentPlugin ( ['MIX_ENV_MODE'] ) ]
+    };
+});
+
+mix.js(__dirname + '/Resources/assets/js/app.js', 'js/api.js')
+    .sass( __dirname + '/Resources/assets/sass/app.scss', 'css/api.css');
+
+if (mix.inProduction()) {
+    mix.version();
+}
